@@ -28,7 +28,8 @@ pub const public_url = "https://mathewrolf1.github.io/animator/"
 pub const include_app_in_gallery = False
 
 /// A link to your video from Problem 14, which anyone with the link can watch.
-pub const video_url = "https://drive.google.com/file/d/1g0PpR_q48WnUa1TGOm2LieeooXclg1RT/view?usp=drive_link"
+pub const video_url =
+  "https://drive.google.com/file/d/1g0PpR_q48WnUa1TGOm2LieeooXclg1RT/view?usp=drive_link"
 
 /// Set to True if you would like your video included in the course gallery.
 pub const include_video_in_gallery = False
@@ -145,7 +146,7 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
       redraw(Model(..model, shape_slider: result.unwrap(int.parse(value), 0)))
 
     SetSpeed(value) -> {
-      let speed = result.unwrap(float.parse(value), 1.0)
+      let speed = parse_float(value)
       #(
         Model(..model, speed:, paused: False),
         effect.from(fn(_) { render.set_speed(speed) }),
@@ -174,6 +175,16 @@ pub fn update(model: Model, msg: Msg) -> #(Model, Effect(Msg)) {
         _ -> open_drawing(model, chosen)
       }
     }
+  }
+}
+
+// A slider's value as a Float. float.parse rejects whole numbers like "3" and
+// "-3", which the speed slider reports at its ends, so try them as Ints too.
+fn parse_float(value: String) -> Float {
+  case float.parse(value), int.parse(value) {
+    Ok(f), _ -> f
+    _, Ok(i) -> int.to_float(i)
+    _, _ -> 1.0
   }
 }
 
