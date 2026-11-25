@@ -1,0 +1,7 @@
+Shapes & Colour. This extension adds curved shapes and per-shape colour to the drawing language, plus a pause/play control.
+
+New shapes (usable inside Path, alongside Line): Circle(center: Point, radius: Int) draws a full circle; Arc(center: Point, radius: Int, from_deg: Int, to_deg: Int) draws part of a circle between two angles in degrees; Polygon(center: Point, radius: Int, sides: Int) draws a regular n-sided polygon, so a slider can turn a triangle into a near-circle. Each is revealed progressively around its outline between the Path's start and end times, just like a line grows from one end to the other.
+
+Colour: Colored(shape: Shape, hue: Int) wraps any shape (Line, Circle, Arc, Polygon) and draws it in the given hue, 0 to 359 around the colour wheel. Shapes that are not wrapped keep the default palette, so every existing drawing works unchanged.
+
+Examples: two new library drawings, "spirograph" (rings of coloured circles whose count and hue shift with the shape slider) and "colour_wheel" (a ring of coloured polygons). The editor's reference panel documents the new constructors. In the control panel, a pause/play button freezes and resumes the animation next to the speed slider and restart button.
